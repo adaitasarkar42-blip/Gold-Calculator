@@ -6,16 +6,25 @@
   <style>
     body {
       font-family: Arial;
-      background: #f5f5f5;
+      background: #f2f2f2;
       padding: 20px;
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
     .box {
       background: white;
       padding: 20px;
       border-radius: 10px;
-      max-width: 400px;
-      margin: auto;
+      width: 320px;
       box-shadow: 0 0 10px #ccc;
+    }
+    h2 {
+      margin-top: 0;
+      text-align: center;
     }
     input, button {
       width: 100%;
@@ -31,44 +40,79 @@
     }
     .result {
       margin-top: 15px;
-      font-size: 16px;
+      font-size: 15px;
     }
   </style>
 </head>
 <body>
 
-<div class="box">
-  <h2>💛 Gold Calculator</h2>
+<div class="container">
 
-  <label>গহনার ওজন (গ্রাম)</label>
-  <input type="number" id="weight" placeholder="যেমন: 10">
+  <!-- 🔹 Section 1: Gold Purity Calculator -->
+  <div class="box">
+    <h2>💛 Gold Calculator</h2>
 
-  <label>সোনার পিউরিটি (%)</label>
-  <input type="number" id="purity" placeholder="যেমন: 76">
+    <label>গহনার ওজন (গ্রাম)</label>
+    <input type="number" id="weight" placeholder="যেমন: 10">
 
-  <button onclick="calculate()">Calculate</button>
+    <label>সোনার পিউরিটি (%)</label>
+    <input type="number" id="purity" placeholder="যেমন: 76">
 
-  <div class="result" id="output"></div>
+    <button onclick="calculateGold()">Calculate</button>
+
+    <div class="result" id="goldOutput"></div>
+  </div>
+
+  <!-- 🔹 Section 2: Price Calculator -->
+  <div class="box">
+    <h2>💰 Price Calculator</h2>
+
+    <label>আজকের ২৪ ক্যারেট দাম (₹ / গ্রাম)</label>
+    <input type="number" id="rate" placeholder="যেমন: 7000">
+
+    <label>কত গ্রাম সোনা লাগবে</label>
+    <input type="number" id="grams" placeholder="যেমন: 8.30">
+
+    <button onclick="calculatePrice()">Calculate</button>
+
+    <div class="result" id="priceOutput"></div>
+  </div>
+
 </div>
 
 <script>
-  function calculate() {
-    let weight = parseFloat(document.getElementById("weight").value);
-    let purity = parseFloat(document.getElementById("purity").value);
+function calculateGold() {
+  let weight = parseFloat(document.getElementById("weight").value);
+  let purity = parseFloat(document.getElementById("purity").value);
 
-    if (isNaN(weight) || isNaN(purity)) {
-      document.getElementById("output").innerHTML = "⚠️ সব ঘর পূরণ করুন";
-      return;
-    }
-
-    let pure24 = weight * (purity / 100);
-    let gold22 = pure24 / 0.916;
-
-    document.getElementById("output").innerHTML =
-      "✅ ২৪ ক্যারেট পাকা সোনা: <b>" + pure24.toFixed(2) + " গ্রাম</b><br>" +
-      "✅ ২২ ক্যারেট হলমার্ক হলে: <b>" + gold22.toFixed(2) + " গ্রাম</b>";
+  if (isNaN(weight) || isNaN(purity)) {
+    document.getElementById("goldOutput").innerHTML = "⚠️ সব ঘর পূরণ করুন";
+    return;
   }
+
+  let pure24 = weight * (purity / 100);
+  let gold22 = pure24 / 0.916;
+
+  document.getElementById("goldOutput").innerHTML =
+    "✅ ২৪ ক্যারেট পাকা সোনা: <b>" + pure24.toFixed(2) + " গ্রাম</b><br>" +
+    "✅ ২২ ক্যারেট হলে ওজন: <b>" + gold22.toFixed(2) + " গ্রাম</b>";
+}
+
+function calculatePrice() {
+  let rate = parseFloat(document.getElementById("rate").value);
+  let grams = parseFloat(document.getElementById("grams").value);
+
+  if (isNaN(rate) || isNaN(grams)) {
+    document.getElementById("priceOutput").innerHTML = "⚠️ সব ঘর পূরণ করুন";
+    return;
+  }
+
+  let total = rate * grams;
+
+  document.getElementById("priceOutput").innerHTML =
+    "💰 মোট দাম: <b>₹" + total.toFixed(0) + "</b>";
+}
 </script>
 
 </body>
-  </html>
+</html>
