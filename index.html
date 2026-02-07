@@ -23,10 +23,10 @@
       box-shadow: 0 0 10px #ccc;
     }
     h2 {
-      margin-top: 0;
       text-align: center;
+      margin-top: 0;
     }
-    input, button {
+    input, select, button {
       width: 100%;
       padding: 10px;
       margin-top: 10px;
@@ -42,42 +42,87 @@
       margin-top: 15px;
       font-size: 15px;
     }
+    .full {
+      max-width: 680px;
+      margin: 20px auto 0;
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
 
-  <!-- 🔹 Section 1: Gold Purity Calculator -->
+  <!-- Gold Calculator -->
   <div class="box">
     <h2>💛 Gold Calculator</h2>
 
     <label>গহনার ওজন (গ্রাম)</label>
-    <input type="number" id="weight" placeholder="যেমন: 10">
+    <input type="number" id="weight" placeholder="যেমন: 10 গ্রাম">
 
     <label>সোনার পিউরিটি (%)</label>
-    <input type="number" id="purity" placeholder="যেমন: 76">
+    <input type="number" id="purity" placeholder="যেমন: 86.50">
 
     <button onclick="calculateGold()">Calculate</button>
 
     <div class="result" id="goldOutput"></div>
   </div>
 
-  <!-- 🔹 Section 2: Price Calculator -->
+  <!-- Gold Price Calculator -->
   <div class="box">
-    <h2>💰 Price Calculator</h2>
+    <h2>💰 Gold Price</h2>
 
-    <label>আজকের ২৪ ক্যারেট দাম (₹/ 1 গ্রাম)</label>
-    <input type="number" id="rate" placeholder="যেমন: 7000">
+    <label>আজকের ২৪ ক্যারেট দাম (₹ / গ্রাম)</label>
+    <input type="number" id="rate" placeholder="যেমন: 15000 টাকা প্রতিগ্রাম">
 
-    <label>কত গ্রাম সোনা লাগবে</label>
-    <input type="number" id="grams" placeholder="যেমন: 8.30">
+    <label>কত গ্রাম সোনা</label>
+    <input type="number" id="grams" placeholder="যেমন:  কত গ্রাম নেবে">
 
     <button onclick="calculatePrice()">Calculate</button>
 
     <div class="result" id="priceOutput"></div>
   </div>
 
+</div>
+
+<!-- Ana Section -->
+<div class="box full">
+  <h2>⚖️ আনা → গ্রাম ক্যালকুলেটর</h2>
+
+  <label>আনা সিলেক্ট করুন</label>
+  <select id="ana" onchange="convertAna()">
+    <option value="">-- আনা নির্বাচন করুন --</option>
+    <option value="1">১ আনা</option>
+    <option value="1.5">১.৫ আনা (দের)</option>
+    <option value="2">২ আনা</option>
+    <option value="2.5">২.৫ আনা</option>
+    <option value="3">৩ আনা</option>
+    <option value="3.5">৩.৫ আনা</option>
+    <option value="4">৪ আনা</option>
+    <option value="4.5">৪.৫ আনা</option>
+    <option value="5">৫ আনা</option>
+    <option value="5.5">৫.৫ আনা</option>
+    <option value="6">৬ আনা</option>
+    <option value="6.5">৬.৫ আনা</option>
+    <option value="7">৭ আনা</option>
+    <option value="7.5">৭.৫ আনা</option>
+    <option value="8">৮ আনা</option>
+    <option value="8.5">৮.৫ আনা</option>
+    <option value="9">৯ আনা</option>
+    <option value="9.5">৯.৫ আনা</option>
+    <option value="10">১০ আনা</option>
+    <option value="10.5">১০.৫ আনা</option>
+    <option value="11">১১ আনা</option>
+    <option value="11.5">১১.৫ আনা</option>
+    <option value="12">১২ আনা</option>
+    <option value="12.5">১২.৫ আনা</option>
+    <option value="13">১৩ আনা</option>
+    <option value="13.5">১৩.৫ আনা</option>
+    <option value="14">১৪ আনা</option>
+    <option value="14.5">১৪.৫ আনা</option>
+    <option value="15">১৫ আনা</option>
+  </select>
+
+  <div class="result" id="anaOutput"></div>
 </div>
 
 <script>
@@ -94,8 +139,8 @@ function calculateGold() {
   let gold22 = pure24 / 0.916;
 
   document.getElementById("goldOutput").innerHTML =
-    "✅ ২৪ ক্যারেট পাকা সোনা: <b>" + pure24.toFixed(2) + " গ্রাম</b><br>" +
-    "✅ ২২ ক্যারেট হলে ওজন: <b>" + gold22.toFixed(2) + " গ্রাম</b>";
+    "২৪ ক্যারেট পাকা সোনা: <b>" + pure24.toFixed(2) + " g</b><br>" +
+    "২২ ক্যারেট হলে ওজন: <b>" + gold22.toFixed(2) + " g</b>";
 }
 
 function calculatePrice() {
@@ -108,9 +153,19 @@ function calculatePrice() {
   }
 
   let total = rate * grams;
-
   document.getElementById("priceOutput").innerHTML =
-    "💰 মোট দাম: <b>₹" + total.toFixed(0) + "</b>";
+    "মোট দাম: <b>₹" + total.toFixed(0) + "</b>";
+}
+
+function convertAna() {
+  let ana = parseFloat(document.getElementById("ana").value);
+  if (isNaN(ana)) {
+    document.getElementById("anaOutput").innerHTML = "";
+    return;
+  }
+  let gram = ana * 0.728;
+  document.getElementById("anaOutput").innerHTML =
+    ana + " আনা = <b>" + gram.toFixed(3) + " গ্রাম</b>";
 }
 </script>
 
