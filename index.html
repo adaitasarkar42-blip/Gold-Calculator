@@ -84,7 +84,7 @@ table th{
 
 <!-- 🔹 Header -->
 <div class="header">
-  <h1>💛 Gourob Jewellers</h1>
+  <h1>❣️ Gourob Jewellers ❣️</h1>
   <div class="date-time" id="dateTime"></div>
 </div>
 
@@ -92,27 +92,31 @@ table th{
 
   <!-- Gold Calculator -->
   <div class="box">
-    <h2>Gold Calculator</h2>
+    <h2>🪙Gold Calculator</h2>
 
     <label>গহনার ওজন (গ্রাম)</label>
-    <input type="number" id="weight">
+    <input type="number" id="weight"
+      placeholder="যেমন: 10 গ্রাম">
 
     <label>সোনার পিউরিটি (%)</label>
-    <input type="number" id="purity">
+    <input type="number" id="purity"
+      placeholder="যেমন: 86">
 
-    <button onclick="calculateGold()">Calculate</button>
+    <button 
     <div class="result" id="goldOutput"></div>
   </div>
 
   <!-- Gold Price -->
   <div class="box">
-    <h2>Gold Price</h2>
+    <h2>💰Gold Price</h2>
 
     <label>আজকের ২৪ ক্যারেট দাম (₹ / গ্রাম)</label>
-    <input type="number" id="rate">
+    <input type="number" id="rate"
+      placeholder="যেমন: 15000 প্রতিগ্রাম">
 
     <label>কত গ্রাম সোনা</label>
-    <input type="number" id="grams">
+    <input type="number" id="grams"
+      placeholder="যেমন: 5 গ্রাম">
 
     <button onclick="calculatePrice()">Calculate</button>
     <div class="result" id="priceOutput"></div>
