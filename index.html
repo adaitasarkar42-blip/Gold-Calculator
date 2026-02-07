@@ -28,10 +28,12 @@ body{
 }
 .container{
   display:flex;
-  gap:20px;
+  gap:12px;
   justify-content:center;
-  flex-wrap:wrap;
-  margin-top:20px;
+  flex-wrap:nowrap;   /* 🔴 খুব গুরুত্বপূর্ণ */
+}
+.box{
+  width:48%;          /* 🔴 দুইটা পাশাপাশি রাখবে */
 }
 .box{
   background:white;
