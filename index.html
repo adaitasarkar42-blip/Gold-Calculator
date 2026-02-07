@@ -3,15 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Gourob Jewellers - Gold Calculator</title>
+
 <style>
 body{
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background:#f2f2f2;
-  padding:20px;
+  padding:15px;
 }
+
+/* Header */
 .header{
-  background:white;
-  max-width:700px;
+  background:#fff;
+  max-width:760px;
   margin:auto;
   padding:15px;
   border-radius:10px;
@@ -21,62 +24,72 @@ body{
 .header h1{
   margin:0;
 }
-.date-time{
-  margin-top:5px;
+.datetime{
+  margin-top:6px;
   font-size:14px;
   color:#555;
 }
+
+/* Two boxes container */
 .container{
   display:flex;
-  gap:12px;
-  justify-content:center;
-  flex-wrap:nowrap;   /* 🔴 খুব গুরুত্বপূর্ণ */
+  justify-content:space-between;
+  gap:10px;
+  max-width:760px;
+  margin:20px auto 0;
+  flex-wrap:nowrap;   /* 🔴 সবসময় পাশাপাশি */
 }
+
+/* Box */
 .box{
-  width:48%;          /* 🔴 দুইটা পাশাপাশি রাখবে */
-}
-.box{
-  background:white;
-  padding:20px;
+  background:#fff;
+  padding:15px;
   border-radius:10px;
-  width:320px;
   box-shadow:0 0 10px #ccc;
+  width:49%;          /* 🔴 দুইটা পাশাপাশি */
 }
+
 h2{
-  margin-top:0;
   text-align:center;
+  margin-top:0;
 }
-input,button{
+
+input, button{
   width:100%;
   padding:10px;
   margin-top:10px;
-  font-size:16px;
+  font-size:15px;
 }
+
 button{
-  background:gold;
+  background:#ffd700;
   border:none;
   font-weight:bold;
   cursor:pointer;
 }
+
 .result{
-  margin-top:15px;
+  margin-top:12px;
   font-size:15px;
 }
+
+/* Ana list */
 .full{
-  max-width:700px;
-  margin:20px auto 0;
+  max-width:760px;
+  margin:20px auto;
 }
+
 table{
   width:100%;
   border-collapse:collapse;
   margin-top:10px;
 }
-table th, table td{
+th, td{
   border:1px solid #ccc;
-  padding:8px;
+  padding:6px;
   text-align:center;
 }
-table th{
+th{
   background:#ffd700;
 }
 </style>
@@ -84,49 +97,46 @@ table th{
 
 <body>
 
-<!-- 🔹 Header -->
+<!-- Header -->
 <div class="header">
-  <h1>❣️ Gourob Jewellers ❣️</h1>
-  <div class="date-time" id="dateTime"></div>
+  <h1>❤️ Gourob Jewellers ❤️</h1>
+  <div class="datetime" id="datetime"></div>
 </div>
 
+<!-- Two calculators -->
 <div class="container">
 
   <!-- Gold Calculator -->
   <div class="box">
-    <h2>🪙Gold Calculator</h2>
+    <h2>🪙 Gold Calculator</h2>
 
     <label>গহনার ওজন (গ্রাম)</label>
-    <input type="number" id="weight"
-      placeholder="যেমন: 10 গ্রাম">
+    <input type="number" id="weight" placeholder="যেমন: 10">
 
     <label>সোনার পিউরিটি (%)</label>
-    <input type="number" id="purity"
-      placeholder="যেমন: 86">
+    <input type="number" id="purity" placeholder="যেমন: 86">
 
-    <button 
-    <div class="result" id="goldOutput"></div>
+    <button onclick="goldCalc()">Calculate</button>
+    <div class="result" id="goldResult"></div>
   </div>
 
   <!-- Gold Price -->
   <div class="box">
-    <h2>💰Gold Price</h2>
+    <h2>💰 Gold Price</h2>
 
     <label>আজকের ২৪ ক্যারেট দাম (₹ / গ্রাম)</label>
-    <input type="number" id="rate"
-      placeholder="যেমন: 15000 প্রতিগ্রাম">
+    <input type="number" id="rate" placeholder="যেমন: 15000">
 
     <label>কত গ্রাম সোনা</label>
-    <input type="number" id="grams"
-      placeholder="যেমন: 5 গ্রাম">
+    <input type="number" id="grams" placeholder="যেমন: 5">
 
-    <button onclick="calculatePrice()">Calculate</button>
-    <div class="result" id="priceOutput"></div>
+    <button onclick="priceCalc()">Calculate</button>
+    <div class="result" id="priceResult"></div>
   </div>
 
 </div>
 
-<!-- Ana List Section -->
+<!-- Ana List -->
 <div class="box full">
   <h2>⚖️ আনা → গ্রাম লিস্ট</h2>
 
@@ -135,54 +145,59 @@ table th{
       <th>আনা</th>
       <th>গ্রাম</th>
     </tr>
-    <script>
-      let anaValues = [
-        1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,
-        8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15
-      ];
-      anaValues.forEach(a=>{
-        document.write(
-          "<tr><td>"+a+" আনা</td><td>"+(a*0.728).toFixed(3)+" g</td></tr>"
-        );
-      });
-    </script>
+
+<script>
+let anaList=[
+  1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,
+  7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,
+  12,12.5,13,13.5,14,14.5,15
+];
+
+anaList.forEach(a=>{
+  document.write(
+    "<tr><td>"+a+" আনা</td><td>"+(a*0.728).toFixed(3)+" g</td></tr>"
+  );
+});
+</script>
+
   </table>
 </div>
 
 <script>
-/* Auto Date & Time */
-function updateTime(){
-  const now = new Date();
-  document.getElementById("dateTime").innerHTML =
+/* Date & Time Auto */
+function updateDateTime(){
+  let now=new Date();
+  document.getElementById("datetime").innerHTML =
     "📅 " + now.toLocaleDateString('bn-IN') +
     " ⏰ " + now.toLocaleTimeString('bn-IN');
 }
-setInterval(updateTime,1000);
-updateTime();
+setInterval(updateDateTime,1000);
+updateDateTime();
 
-/* Calculators */
-function calculateGold(){
+/* Gold Calculator */
+function goldCalc(){
   let w=parseFloat(weight.value);
   let p=parseFloat(purity.value);
   if(isNaN(w)||isNaN(p)){
-    goldOutput.innerHTML="⚠️ সব ঘর পূরণ করুন";
+    goldResult.innerHTML="⚠️ সব ঘর পূরণ করুন";
     return;
   }
   let pure=w*(p/100);
   let k22=pure/0.916;
-  goldOutput.innerHTML=
+  goldResult.innerHTML=
     "২৪ ক্যারেট: <b>"+pure.toFixed(2)+" g</b><br>"+
     "২২ ক্যারেট: <b>"+k22.toFixed(2)+" g</b>";
 }
 
-function calculatePrice(){
+/* Price Calculator */
+function priceCalc(){
   let r=parseFloat(rate.value);
   let g=parseFloat(grams.value);
   if(isNaN(r)||isNaN(g)){
-    priceOutput.innerHTML="⚠️ সব ঘর পূরণ করুন";
+    priceResult.innerHTML="⚠️ সব ঘর পূরণ করুন";
     return;
   }
-  priceOutput.innerHTML=
+  priceResult.innerHTML=
     "মোট দাম: <b>₹"+(r*g).toFixed(0)+"</b>";
 }
 </script>
