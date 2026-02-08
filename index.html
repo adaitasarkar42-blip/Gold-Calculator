@@ -10,8 +10,6 @@ body{
   background:#f2f2f2;
   padding:15px;
 }
-
-/* Header */
 .header{
   background:#fff;
   max-width:760px;
@@ -21,64 +19,51 @@ body{
   box-shadow:0 0 10px #ccc;
   text-align:center;
 }
-.header h1{
-  margin:0;
-}
+.header h1{ margin:0; }
 .datetime{
   margin-top:6px;
   font-size:14px;
   color:#555;
 }
-
-/* Two boxes container */
 .container{
   display:flex;
   justify-content:space-between;
   gap:10px;
   max-width:760px;
   margin:20px auto 0;
-  flex-wrap:nowrap;   /* 🔴 সবসময় পাশাপাশি */
+  flex-wrap:nowrap;
 }
-
-/* Box */
 .box{
   background:#fff;
   padding:15px;
   border-radius:10px;
   box-shadow:0 0 10px #ccc;
-  width:49%;          /* 🔴 দুইটা পাশাপাশি */
+  width:49%;
 }
-
 h2{
   text-align:center;
   margin-top:0;
 }
-
 input, button{
   width:100%;
   padding:10px;
   margin-top:10px;
   font-size:15px;
 }
-
 button{
   background:#ffd700;
   border:none;
   font-weight:bold;
   cursor:pointer;
 }
-
 .result{
   margin-top:12px;
   font-size:15px;
 }
-
-/* Ana list */
 .full{
   max-width:760px;
   margin:20px auto;
 }
-
 table{
   width:100%;
   border-collapse:collapse;
@@ -89,9 +74,7 @@ th, td{
   padding:6px;
   text-align:center;
 }
-th{
-  background:#ffd700;
-}
+th{ background:#ffd700; }
 </style>
 </head>
 
@@ -99,7 +82,7 @@ th{
 
 <!-- Header -->
 <div class="header">
-  <h1>❤️ Gourob Biswas ❤️</h1>
+  <h1>❤️ Gourob Jewellers ❤️</h1>
   <div class="datetime" id="datetime"></div>
 </div>
 
@@ -120,7 +103,7 @@ th{
     <div class="result" id="goldResult"></div>
   </div>
 
-  <!-- Gold Price -->
+  <!-- Gold Price with 8% Making -->
   <div class="box">
     <h2>💰 Gold Price</h2>
 
@@ -139,32 +122,19 @@ th{
 <!-- Ana List -->
 <div class="box full">
   <h2>⚖️ আনা → গ্রাম লিস্ট</h2>
-
   <table>
-    <tr>
-      <th>আনা</th>
-      <th>গ্রাম</th>
-    </tr>
-
-<script>
-let anaList=[
-  1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,
-  7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,
-  12,12.5,13,13.5,14,14.5,15
-];
-
-anaList.forEach(a=>{
-  document.write(
-    "<tr><td>"+a+" আনা</td><td>"+(a*0.728).toFixed(3)+" g</td></tr>"
-  );
-});
-</script>
-
+    <tr><th>আনা</th><th>গ্রাম</th></tr>
+    <script>
+      let anaList=[1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15];
+      anaList.forEach(a=>{
+        document.write("<tr><td>"+a+" আনা</td><td>"+(a*0.728).toFixed(3)+" g</td></tr>");
+      });
+    </script>
   </table>
 </div>
 
 <script>
-/* Date & Time Auto */
+/* Auto Date & Time */
 function updateDateTime(){
   let now=new Date();
   document.getElementById("datetime").innerHTML =
@@ -189,7 +159,7 @@ function goldCalc(){
     "২২ ক্যারেট: <b>"+k22.toFixed(2)+" g</b>";
 }
 
-/* Price Calculator */
+/* Price Calculator with 8% Making Charge */
 function priceCalc(){
   let r=parseFloat(rate.value);
   let g=parseFloat(grams.value);
@@ -197,8 +167,15 @@ function priceCalc(){
     priceResult.innerHTML="⚠️ সব ঘর পূরণ করুন";
     return;
   }
-  priceResult.innerHTML=
-    "মোট দাম: <b>₹"+(r*g).toFixed(0)+"</b>";
+
+  let base = r * g;
+  let making = base * 0.08;   // 8% making
+  let total = base + making;
+
+  priceResult.innerHTML =
+    "সোনার দাম: ₹"+base.toFixed(0)+"<br>"+
+    "মেকিং চার্জ (8%): ₹"+making.toFixed(0)+"<br>"+
+    "<b>মোট দাম: ₹"+total.toFixed(0)+"</b>";
 }
 </script>
 
