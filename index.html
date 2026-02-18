@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<title>Gourob Jewellers - Gold Calculator</title>
+<title>Gourob Jewellers</title>
 
 <style>
 body{
@@ -10,6 +10,7 @@ body{
   background:#f2f2f2;
   padding:15px;
 }
+
 .header{
   background:#fff;
   max-width:760px;
@@ -19,20 +20,16 @@ body{
   box-shadow:0 0 10px #ccc;
   text-align:center;
 }
-.header h1{ margin:0; }
-.datetime{
-  margin-top:6px;
-  font-size:14px;
-  color:#555;
-}
+
 .container{
   display:flex;
   justify-content:space-between;
   gap:10px;
   max-width:760px;
-  margin:20px auto 0;
+  margin:20px auto;
   flex-wrap:nowrap;
 }
+
 .box{
   background:#fff;
   padding:15px;
@@ -40,166 +37,139 @@ body{
   box-shadow:0 0 10px #ccc;
   width:49%;
 }
+
 h2{
   text-align:center;
   margin-top:0;
 }
+
 input, button{
   width:100%;
   padding:10px;
   margin-top:10px;
   font-size:15px;
 }
+
 button{
   background:#ffd700;
   border:none;
   font-weight:bold;
   cursor:pointer;
 }
+
 .result{
   margin-top:12px;
   font-size:15px;
 }
-.full{
-  max-width:760px;
+
+/* BILL STYLE */
+.bill{
+  background:#fff;
+  max-width:350px;
   margin:20px auto;
+  padding:15px;
+  border:1px dashed #000;
+  font-size:14px;
 }
-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:10px;
+
+/* Print Mode */
+@media print{
+  body *{
+    visibility:hidden;
+  }
+  .bill, .bill *{
+    visibility:visible;
+  }
+  .bill{
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+  }
 }
-th, td{
-  border:1px solid #ccc;
-  padding:6px;
-  text-align:center;
-}
-th{ background:#ffd700; }
 </style>
 </head>
-<!-- Social Media Links -->
-<div style="
-  max-width:760px;
-  margin:20px auto;
-  background:#fff;
-  padding:15px;
-  border-radius:10px;
-  box-shadow:0 0 10px #ccc;
-  text-align:center;
-">
-  <h3>📲 Connect with Gourob Biswas</h3>
 
-  <a href="https://www.facebook.com/share/1A1h4ZnvD4/" target="_blank" style="margin:0 8px; text-decoration:none; font-weight:bold;">
-    📘 Facebook
-  </a>
-
-  <a href="https://www.instagram.com/imgourobb?igsh=MW1zajV2YWRmaHk4MQ==" target="_blank" style="margin:0 8px; text-decoration:none; font-weight:bold;">
-    📸 Instagram
-  </a>
-
-  <a href="https://wa.me/919134807484?text=Hello%20Gourob%20Jewellers%2C%20I%20want%20to%20know%20gold%20price" target="_blank" style="margin:0 8px; text-decoration:none; font-weight:bold;">
-    💬 WhatsApp
-  </a>
-</div>
 <body>
 
-<!-- Header -->
 <div class="header">
-  <h1>❤️ Gourob Biswas ❤️</h1>
-  <div class="datetime" id="datetime"></div>
+  <h2>❤️ Gourob Biswas ❤️</h2>
+  <div id="datetime"></div>
 </div>
 
-<!-- Two calculators -->
 <div class="container">
 
-  <!-- Gold Calculator -->
-  <div class="box">
-    <h2>🪙 Gold Calculator</h2>
-
-    <label>গহনার ওজন (গ্রাম)</label>
-    <input type="number" id="weight" placeholder="যেমন: 10">
-
-    <label>সোনার পিউরিটি (%)</label>
-    <input type="number" id="purity" placeholder="যেমন: 86">
-
-    <button onclick="goldCalc()">Calculate</button>
-    <div class="result" id="goldResult"></div>
-  </div>
-
-  <!-- Gold Price with 8% Making -->
   <div class="box">
     <h2>💰 Gold Price</h2>
 
-    <label>আজকের ২৪ ক্যারেট দাম (₹ / গ্রাম)</label>
-    <input type="number" id="rate" placeholder="যেমন: 15000">
+    <label>Customer Name</label>
+    <input type="text" id="custName" placeholder="নাম লিখুন">
 
-    <label>কত গ্রাম সোনা</label>
-    <input type="number" id="grams" placeholder="যেমন: 5">
+    <label>আজকের ২৪ ক্যারেট দাম (₹ / g)</label>
+    <input type="number" id="rate">
 
-    <button onclick="priceCalc()">Calculate</button>
-    <div class="result" id="priceResult"></div>
+    <label>কত গ্রাম</label>
+    <input type="number" id="grams">
+
+    <button onclick="generateBill()">Generate Bill</button>
   </div>
 
 </div>
 
-<!-- Ana List -->
-<div class="box full">
-  <h2>⚖️ আনা → গ্রাম লিস্ট</h2>
-  <table>
-    <tr><th>আনা</th><th>গ্রাম</th></tr>
-    <script>
-      let anaList=[1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15];
-      anaList.forEach(a=>{
-        document.write("<tr><td>"+a+" আনা</td><td>"+(a*0.728).toFixed(3)+" g</td></tr>");
-      });
-    </script>
-  </table>
+<!-- BILL AREA -->
+<div class="bill" id="billArea" style="display:none;">
+  <h3 style="text-align:center;">Gourob Jewellers</h3>
+  <div id="billDate"></div>
+  <hr>
+  <div id="billContent"></div>
+  <hr>
+  <p style="text-align:center;">Thank You 🙏</p>
+  <button onclick="window.print()">🖨 Print Bill</button>
 </div>
 
 <script>
-/* Auto Date & Time */
+
+/* Date Time */
 function updateDateTime(){
   let now=new Date();
-  document.getElementById("datetime").innerHTML =
-    "📅 " + now.toLocaleDateString('bn-IN') +
-    " ⏰ " + now.toLocaleTimeString('bn-IN');
+  document.getElementById("datetime").innerHTML=
+    now.toLocaleDateString('bn-IN') + " | " +
+    now.toLocaleTimeString('bn-IN');
 }
 setInterval(updateDateTime,1000);
 updateDateTime();
 
-/* Gold Calculator */
-function goldCalc(){
-  let w=parseFloat(weight.value);
-  let p=parseFloat(purity.value);
-  if(isNaN(w)||isNaN(p)){
-    goldResult.innerHTML="⚠️ সব ঘর পূরণ করুন";
-    return;
-  }
-  let pure=w*(p/100);
-  let k22=pure/0.916;
-  goldResult.innerHTML=
-    "২৪ ক্যারেট: <b>"+pure.toFixed(2)+" g</b><br>"+
-    "২২ ক্যারেট: <b>"+k22.toFixed(2)+" g</b>";
-}
+/* Generate Bill */
+function generateBill(){
 
-/* Price Calculator with 8% Making Charge */
-function priceCalc(){
-  let r=parseFloat(rate.value);
-  let g=parseFloat(grams.value);
-  if(isNaN(r)||isNaN(g)){
-    priceResult.innerHTML="⚠️ সব ঘর পূরণ করুন";
+  let name=document.getElementById("custName").value;
+  let rate=parseFloat(document.getElementById("rate").value);
+  let grams=parseFloat(document.getElementById("grams").value);
+
+  if(name=="" || isNaN(rate) || isNaN(grams)){
+    alert("সব ঘর পূরণ করুন");
     return;
   }
 
-  let base = r * g;
-  let making = base * 0.08;   // 8% making
-  let total = base + making;
+  let base=rate*grams;
+  let making=base*0.08;
+  let total=base+making;
 
-  priceResult.innerHTML =
-    "সোনার দাম: ₹"+base.toFixed(0)+"<br>"+
-    "মেকিং চার্জ (8%): ₹"+making.toFixed(0)+"<br>"+
-    "<b>মোট দাম: ₹"+total.toFixed(0)+"</b>";
+  let now=new Date();
+
+  document.getElementById("billDate").innerHTML=
+    "Date: "+now.toLocaleDateString('bn-IN')+
+    "<br>Time: "+now.toLocaleTimeString('bn-IN');
+
+  document.getElementById("billContent").innerHTML=
+    "Customer: "+name+"<br><br>"+
+    "Gold Price: ₹"+base.toFixed(0)+"<br>"+
+    "Making (8%): ₹"+making.toFixed(0)+"<br>"+
+    "<b>Total: ₹"+total.toFixed(0)+"</b>";
+
+  document.getElementById("billArea").style.display="block";
 }
+
 </script>
 
 </body>
