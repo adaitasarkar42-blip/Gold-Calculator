@@ -192,11 +192,15 @@ function priceCalc(){
     return;
   }
 
+  let rate22 = r * 0.916;   // ২২ ক্যারেট প্রতি গ্রাম দাম
+
   let base=r*g;
   let making=base*0.08;
   let total=base+making;
 
   priceResult.innerHTML=
+    "২৪ ক্যারেট দাম (প্রতি গ্রাম): ₹"+r.toFixed(0)+"<br>"+
+    "২২ ক্যারেট দাম (প্রতি গ্রাম): ₹"+rate22.toFixed(0)+"<br><br>"+
     "সোনার দাম: ₹"+base.toFixed(0)+"<br>"+
     "মেকিং চার্জ (8%): ₹"+making.toFixed(0)+"<br>"+
     "<b>মোট দাম: ₹"+total.toFixed(0)+"</b>";
