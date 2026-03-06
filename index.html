@@ -170,43 +170,50 @@ function updateDateTime(){
 setInterval(updateDateTime,1000);
 updateDateTime();
 
-function goldCalc(){
-  let w=parseFloat(weight.value);
-  let p=parseFloat(purity.value);
-  if(isNaN(w)||isNaN(p)){
-    goldResult.innerHTML="⚠️ সব ঘর পূরণ করুন";
-    return;
-  }
-  let pure=w*(p/100);
-  let k22=pure/0.916;
-  goldResult.innerHTML=
-    "২৪ ক্যারেট: <b>"+pure.toFixed(2)+" g</b><br>"+
-    "২২ ক্যারেট: <b>"+k22.toFixed(2)+" g</b>";
-}
-
 function priceCalc(){
+
   let r=parseFloat(rate.value);
   let g=parseFloat(grams.value);
+
   if(isNaN(r)||isNaN(g)){
     priceResult.innerHTML="⚠️ সব ঘর পূরণ করুন";
     return;
   }
 
-  let rate22 = r * 0.916;   // ২২ ক্যারেট প্রতি গ্রাম দাম
+  let rate22 = r * 0.916;
 
-  let base=r*g;
-  let making=base*0.08;
-  let total=base+making;
+  let base24 = r*g;
+  let making24 = base24*0.08;
+  let total24 = base24 + making24;
 
-  priceResult.innerHTML=
-    "২৪ ক্যারেট দাম (প্রতি গ্রাম): ₹"+r.toFixed(0)+"<br>"+
-    "২২ ক্যারেট দাম (প্রতি গ্রাম): ₹"+rate22.toFixed(0)+"<br><br>"+
-    "সোনার দাম: ₹"+base.toFixed(0)+"<br>"+
-    "মেকিং চার্জ (8%): ₹"+making.toFixed(0)+"<br>"+
-    "<b>মোট দাম: ₹"+total.toFixed(0)+"</b>";
+  let base22 = rate22*g;
+  let making22 = base22*0.08;
+  let total22 = base22 + making22;
+
+  priceResult.innerHTML=`
+
+  <table style="width:100%; margin-top:10px; border-collapse:collapse;">
+  
+  <tr style="background:#ffd700;font-weight:bold;">
+  <td style="border:1px solid #ccc;padding:6px;">24K</td>
+  <td style="border:1px solid #ccc;padding:6px;">22K</td>
+  </tr>
+
+  <tr>
+  <td style="border:1px solid #ccc;padding:6px;">
+  সোনার দাম: ₹${base24.toFixed(0)} <br>
+  মেকিং চার্জ (8%): ₹${making24.toFixed(0)} <br>
+  <b>মোট দাম: ₹${total24.toFixed(0)}</b>
+  </td>
+
+  <td style="border:1px solid #ccc;padding:6px;">
+  সোনার দাম: ₹${base22.toFixed(0)} <br>
+  মেকিং চার্জ (8%): ₹${making22.toFixed(0)} <br>
+  <b>মোট দাম: ₹${total22.toFixed(0)}</b>
+  </td>
+
+  </tr>
+
+  </table>
+  `;
 }
-
-</script>
-
-</body>
-</html>
