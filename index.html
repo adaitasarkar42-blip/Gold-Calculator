@@ -172,48 +172,49 @@ updateDateTime();
 
 function priceCalc(){
 
-  let r=parseFloat(rate.value);
-  let g=parseFloat(grams.value);
+  var r=parseFloat(document.getElementById("rate").value);
+  var g=parseFloat(document.getElementById("grams").value);
 
   if(isNaN(r)||isNaN(g)){
-    priceResult.innerHTML="⚠️ সব ঘর পূরণ করুন";
+    document.getElementById("priceResult").innerHTML="⚠️ সব ঘর পূরণ করুন";
     return;
   }
 
-  let rate22 = r * 0.916;
+  var rate22 = r*0.916;
 
-  let base24 = r*g;
-  let making24 = base24*0.08;
-  let total24 = base24 + making24;
+  var base24=r*g;
+  var making24=base24*0.08;
+  var total24=base24+making24;
 
-  let base22 = rate22*g;
-  let making22 = base22*0.08;
-  let total22 = base22 + making22;
+  var base22=rate22*g;
+  var making22=base22*0.08;
+  var total22=base22+making22;
 
-  priceResult.innerHTML=`
+  var html="";
 
-  <table style="width:100%; margin-top:10px; border-collapse:collapse;">
-  
-  <tr style="background:#ffd700;font-weight:bold;">
-  <td style="border:1px solid #ccc;padding:6px;">24K</td>
-  <td style="border:1px solid #ccc;padding:6px;">22K</td>
-  </tr>
+  html+="<table style='width:100%;border-collapse:collapse;margin-top:10px;'>";
 
-  <tr>
-  <td style="border:1px solid #ccc;padding:6px;">
-  সোনার দাম: ₹${base24.toFixed(0)} <br>
-  মেকিং চার্জ (8%): ₹${making24.toFixed(0)} <br>
-  <b>মোট দাম: ₹${total24.toFixed(0)}</b>
-  </td>
+  html+="<tr style='background:#ffd700;font-weight:bold'>";
+  html+="<td style='border:1px solid #ccc;padding:6px'>24K</td>";
+  html+="<td style='border:1px solid #ccc;padding:6px'>22K</td>";
+  html+="</tr>";
 
-  <td style="border:1px solid #ccc;padding:6px;">
-  সোনার দাম: ₹${base22.toFixed(0)} <br>
-  মেকিং চার্জ (8%): ₹${making22.toFixed(0)} <br>
-  <b>মোট দাম: ₹${total22.toFixed(0)}</b>
-  </td>
+  html+="<tr>";
 
-  </tr>
+  html+="<td style='border:1px solid #ccc;padding:6px'>";
+  html+="সোনার দাম: ₹"+base24.toFixed(0)+"<br>";
+  html+="মেকিং চার্জ (8%): ₹"+making24.toFixed(0)+"<br>";
+  html+="<b>মোট দাম: ₹"+total24.toFixed(0)+"</b>";
+  html+="</td>";
 
-  </table>
-  `;
+  html+="<td style='border:1px solid #ccc;padding:6px'>";
+  html+="সোনার দাম: ₹"+base22.toFixed(0)+"<br>";
+  html+="মেকিং চার্জ (8%): ₹"+making22.toFixed(0)+"<br>";
+  html+="<b>মোট দাম: ₹"+total22.toFixed(0)+"</b>";
+  html+="</td>";
+
+  html+="</tr>";
+  html+="</table>";
+
+  document.getElementById("priceResult").innerHTML=html;
 }
