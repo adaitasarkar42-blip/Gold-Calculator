@@ -216,29 +216,36 @@ var k24=pure;
 var k22=pure/0.916;
 var k21=pure/0.875;
 var k20=pure/0.833;
-var k18=pure/0.750;
 
 var html="";
 
 html+="<table style='width:100%;border-collapse:collapse'>";
 
 html+="<tr style='background:#ffd700'>";
-html+="<th>ক্যারেট</th>";
-html+="<th>গ্রাম</th>";
+html+="<th>24K</th>";
+html+="<th>22K</th>";
 html+="</tr>";
 
-html+="<tr><td>24K</td><td>"+k24.toFixed(3)+" g</td></tr>";
-html+="<tr><td>22K</td><td>"+k22.toFixed(3)+" g</td></tr>";
-html+="<tr><td>21K</td><td>"+k21.toFixed(3)+" g</td></tr>";
-html+="<tr><td>20K</td><td>"+k20.toFixed(3)+" g</td></tr>";
-html+="<tr><td>18K</td><td>"+k18.toFixed(3)+" g</td></tr>";
+html+="<tr>";
+html+="<td>"+k24.toFixed(3)+" g</td>";
+html+="<td>"+k22.toFixed(3)+" g</td>";
+html+="</tr>";
+
+html+="<tr style='background:#ffd700'>";
+html+="<th>21K</th>";
+html+="<th>20K</th>";
+html+="</tr>";
+
+html+="<tr>";
+html+="<td>"+k21.toFixed(3)+" g</td>";
+html+="<td>"+k20.toFixed(3)+" g</td>";
+html+="</tr>";
 
 html+="</table>";
 
 document.getElementById("goldResult").innerHTML=html;
 
 }
-
 
 
 function priceCalc(){
