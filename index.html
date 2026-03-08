@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
+
 <meta charset="UTF-8">
 <title>Gourob Jewellers</title>
 
@@ -12,20 +13,9 @@ background:#f2f2f2;
 padding:15px;
 }
 
-.topbar{
-background:#fff;
-max-width:760px;
-margin:auto;
-padding:10px;
-border-radius:10px;
-box-shadow:0 0 10px #ccc;
-text-align:center;
-margin-bottom:15px;
-}
-
 .header{
-background:#fff;
-max-width:760px;
+background:white;
+max-width:900px;
 margin:auto;
 padding:15px;
 border-radius:10px;
@@ -35,47 +25,29 @@ text-align:center;
 
 .container{
 display:flex;
-justify-content:space-between;
-gap:10px;
-max-width:760px;
+gap:15px;
+max-width:900px;
 margin:20px auto;
 }
 
 .box{
-background:#fff;
+background:white;
 padding:15px;
 border-radius:10px;
 box-shadow:0 0 10px #ccc;
-width:49%;
-}
-
-h2{
-text-align:center;
-margin-top:0;
+width:50%;
 }
 
 input,button{
 width:100%;
 padding:10px;
-margin-top:10px;
-font-size:15px;
+margin-top:8px;
 }
 
 button{
 background:#ffd700;
 border:none;
 font-weight:bold;
-cursor:pointer;
-}
-
-.result{
-margin-top:12px;
-font-size:15px;
-}
-
-.full{
-max-width:760px;
-margin:20px auto;
 }
 
 table{
@@ -84,7 +56,7 @@ border-collapse:collapse;
 margin-top:10px;
 }
 
-th,td{
+td,th{
 border:1px solid #ccc;
 padding:6px;
 text-align:center;
@@ -94,69 +66,60 @@ th{
 background:#ffd700;
 }
 
-a{
-text-decoration:none;
-font-weight:bold;
-margin:0 8px;
+.bill{
+padding:10px;
+border:1px dashed #000;
+margin-top:10px;
+}
+
+.history{
+max-width:900px;
+margin:auto;
+background:white;
+padding:10px;
+margin-top:20px;
+border-radius:10px;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="topbar">
-📲 Connect with Gourob Biswas <br><br>
-<a href="https://www.facebook.com/share/1A1h4ZnvD4/" target="_blank">📘 Facebook</a>
-<a href="https://www.instagram.com/imgourobb" target="_blank">📸 Instagram</a>
-<a href="https://wa.me/919134807484" target="_blank">💬 WhatsApp</a>
-</div>
-
 <div class="header">
-<h2>❤️ Gourob Biswas ❤️</h2>
-<div id="datetime"></div>
+
+<h2>Gourob Jewellers</h2>
+Owner: Gourob Biswas
+
 </div>
 
 <div class="container">
 
 <div class="box">
 
-<h2>🪙 Gold Calculator</h2>
+<h3>Customer Bill</h3>
 
-<label>গহনার ওজন (কত গ্রাম)</label>
-<input type="number" id="weight" placeholder="যেমন: 10 গ্রাম">
+<input id="custname" placeholder="Customer Name">
 
-<label>সোনার পিউরিটি (%)</label>
-<input type="number" id="purity" placeholder="যেমন: 86">
+<input id="goldprice" placeholder="Gold Price per gram">
 
-<button onclick="goldCalc()">Calculate</button>
+<input id="weight" placeholder="Gold Weight gram">
 
-<div class="result" id="goldResult"></div>
+<input id="making" placeholder="Making Charge %">
+
+<button onclick="generateBill()">Generate Bill</button>
+
+<div id="bill" class="bill"></div>
+
+<button onclick="printBill()">Print PDF</button>
 
 </div>
+
 
 <div class="box">
 
-<h2>💰 Gold Price</h2>
-
-<label>আজকের ২৪ ক্যারেট দাম (প্রতি গ্রাম)</label>
-<input type="number" id="rate" placeholder="যেমন: 15000 টাকা গ্রাম">
-
-<label>কত গ্রাম সোনা</label>
-<input type="number" id="grams" placeholder="যেমন: 5 গ্রাম নিয়েছি">
-
-<button onclick="priceCalc()">Calculate</button>
-
-<div class="result" id="priceResult"></div>
-
-</div>
-
-</div>
-
-
-<div class="box full">
-
-<h2>⚖️ আনা → গ্রাম লিস্ট</h2>
+<h3>আনা → গ্রাম লিস্ট</h3>
 
 <table>
 
@@ -167,13 +130,11 @@ margin:0 8px;
 
 <script>
 
-var ana=[1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15];
+let ana=[1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15];
 
-for(var i=0;i<ana.length;i++){
-
-document.write("<tr><td>"+ana[i]+" আনা</td><td>"+(ana[i]*0.728).toFixed(3)+" g</td></tr>");
-
-}
+ana.forEach(a=>{
+document.write("<tr><td>"+a+" আনা</td><td>"+(a*0.728).toFixed(3)+" g</td></tr>");
+});
 
 </script>
 
@@ -181,123 +142,100 @@ document.write("<tr><td>"+ana[i]+" আনা</td><td>"+(ana[i]*0.728).toFixed(3)
 
 </div>
 
+</div>
+
+
+<div class="history">
+
+<h3>Saved Bills</h3>
+
+<ul id="history"></ul>
+
+</div>
+
 
 <script>
 
+function generateBill(){
 
-function updateDateTime(){
+let name=document.getElementById("custname").value;
 
-var now=new Date();
+let price=parseFloat(document.getElementById("goldprice").value);
 
-document.getElementById("datetime").innerHTML=
-now.toLocaleDateString('bn-IN')+" | "+now.toLocaleTimeString('bn-IN');
+let w=parseFloat(document.getElementById("weight").value);
 
-}
+let m=parseFloat(document.getElementById("making").value);
 
-setInterval(updateDateTime,1000);
+let gold=price*w;
 
-updateDateTime();
+let makingCharge=gold*(m/100);
 
+let total=gold+makingCharge;
 
+let html="";
 
-function goldCalc(){
+html+="<b>Gourob Jewellers</b><br>";
 
-var w=parseFloat(document.getElementById("weight").value);
+html+="Customer: "+name+"<br>";
 
-var p=parseFloat(document.getElementById("purity").value);
+html+="Gold Price: ₹"+price+"<br>";
 
-if(isNaN(w)||isNaN(p)){
+html+="Weight: "+w+" g<br>";
 
-document.getElementById("goldResult").innerHTML="⚠️ সব ঘর পূরণ করুন";
+html+="Gold Value: ₹"+gold.toFixed(0)+"<br>";
 
-return;
+html+="Making: ₹"+makingCharge.toFixed(0)+"<br>";
 
-}
+html+="<b>Total: ₹"+total.toFixed(0)+"</b><br>";
 
-var pure=w*(p/100);
+html+="Date: "+new Date().toLocaleDateString();
 
-var k22=pure/0.916;
-
-document.getElementById("goldResult").innerHTML=
-"২৪ ক্যারেট: <b>"+pure.toFixed(2)+" g</b><br>"+
-"২২ ক্যারেট: <b>"+k22.toFixed(2)+" g</b>";
+document.getElementById("bill").innerHTML=html;
 
 }
 
 
+function printBill(){
 
-function priceCalc(){
+let billText=document.getElementById("bill").innerHTML;
 
-var r=parseFloat(document.getElementById("rate").value);
+let bills=JSON.parse(localStorage.getItem("bills"))||[];
 
-var g=parseFloat(document.getElementById("grams").value);
+bills.push(billText);
 
-if(isNaN(r)||isNaN(g)){
+localStorage.setItem("bills",JSON.stringify(bills));
 
-document.getElementById("priceResult").innerHTML="⚠️ সব ঘর পূরণ করুন";
-
-return;
-
-}
-
-var rate22=r*0.916;
-
-var gold24=r*g;
-
-var making24=gold24*0.08;
-
-var total24=gold24+making24;
-
-var gold22=rate22*g;
-
-var making22=gold22*0.08;
-
-var total22=gold22+making22;
-
-
-
-var html="";
-
-html+="<table>";
-
-html+="<tr><th>24K</th><th>22K</th></tr>";
-
-html+="<tr>";
-
-html+="<td>";
-
-html+="সোনার দাম: ₹"+gold24.toFixed(0)+"<br>";
-
-html+="মেকিং চার্জ (8%): ₹"+making24.toFixed(0)+"<br>";
-
-html+="<b>মোট দাম: ₹"+total24.toFixed(0)+"</b>";
-
-html+="</td>";
-
-html+="<td>";
-
-html+="সোনার দাম: ₹"+gold22.toFixed(0)+"<br>";
-
-html+="মেকিং চার্জ (8%): ₹"+making22.toFixed(0)+"<br>";
-
-html+="<b>মোট দাম: ₹"+total22.toFixed(0)+"</b>";
-
-html+="</td>";
-
-html+="</tr>";
-
-html+="</table>";
-
-document.getElementById("priceResult").innerHTML=html;
+window.print();
 
 }
 
-</script>
 
-<script>
-if ('serviceWorker' in navigator) {
-navigator.serviceWorker.register('service-worker.js');
+function loadBills(){
+
+if(navigator.onLine){
+
+let bills=JSON.parse(localStorage.getItem("bills"))||[];
+
+let list=document.getElementById("history");
+
+list.innerHTML="";
+
+bills.forEach(b=>{
+let li=document.createElement("li");
+li.innerHTML=b;
+list.appendChild(li);
+});
+
+}else{
+
+document.getElementById("history").innerHTML="Internet না থাকায় বিল দেখা যাচ্ছে না";
+
 }
+
+}
+
+window.onload=loadBills;
+
 </script>
 
 </body>
