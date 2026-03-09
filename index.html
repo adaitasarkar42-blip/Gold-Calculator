@@ -5,34 +5,11 @@
 <title>Gourob Jewellers</title>
 
 <style>
+
 body{
 font-family:Arial;
 background:#f2f2f2;
 padding:15px;
-transition:0.3s;
-}
-
-.dark{
-background:#121212;
-color:#fff;
-}
-
-.topbar{
-background:#fff;
-max-width:760px;
-margin:auto;
-padding:10px;
-border-radius:10px;
-box-shadow:0 0 10px #ccc;
-text-align:center;
-margin-bottom:15px;
-}
-
-.dark .topbar,
-.dark .header,
-.dark .box{
-background:#1e1e1e;
-color:#fff;
 }
 
 .header{
@@ -43,15 +20,6 @@ padding:15px;
 border-radius:10px;
 box-shadow:0 0 10px #ccc;
 text-align:center;
-position:relative;
-}
-
-.menu{
-position:absolute;
-left:10px;
-top:10px;
-font-size:22px;
-cursor:pointer;
 }
 
 .container{
@@ -70,11 +38,6 @@ box-shadow:0 0 10px #ccc;
 width:49%;
 }
 
-h2{
-text-align:center;
-margin-top:0;
-}
-
 input,button{
 width:100%;
 padding:10px;
@@ -87,16 +50,6 @@ background:#ffd700;
 border:none;
 font-weight:bold;
 cursor:pointer;
-}
-
-.result{
-margin-top:12px;
-font-size:15px;
-}
-
-.full{
-max-width:760px;
-margin:20px auto;
 }
 
 table{
@@ -115,49 +68,27 @@ th{
 background:#ffd700;
 }
 
-a{
-text-decoration:none;
-font-weight:bold;
-margin:0 8px;
-}
-
-.history{
-display:none;
-background:#fff;
+.full{
 max-width:760px;
 margin:20px auto;
+background:#fff;
 padding:15px;
 border-radius:10px;
 box-shadow:0 0 10px #ccc;
 }
 
-.dark .history{
-background:#1e1e1e;
-}
-
 </style>
+
 </head>
 
 <body>
 
-<div class="topbar">
-📲 Connect with Gourob Biswas <br><br>
-<a href="https://www.facebook.com/share/1A1h4ZnvD4/" target="_blank">📘 Facebook</a>
-<a href="https://www.instagram.com/imgourobb" target="_blank">📸 Instagram</a>
-<a href="https://wa.me/919134807484" target="_blank">💬 WhatsApp</a>
-</div>
-
 <div class="header">
-
-<div class="menu" onclick="toggleHistory()">☰</div>
 
 <h2>❤️ Gourob Biswas ❤️</h2>
 
-<div id="datetime"></div>
-
-<button onclick="toggleDark()">🌙 Dark Mode</button>
-
 </div>
+
 
 <div class="container">
 
@@ -166,157 +97,135 @@ background:#1e1e1e;
 <h2>🪙 Gold Calculator</h2>
 
 <label>গহনার ওজন (গ্রাম)</label>
-<input type="number" id="weight">
+<input type="number" id="weight" placeholder="যেমন: 10">
 
 <label>সোনার পিউরিটি (%)</label>
-<input type="number" id="purity">
+<input type="number" id="purity" placeholder="যেমন: 86">
 
 <button onclick="goldCalc()">Calculate</button>
 
-<div class="result" id="goldResult"></div>
+<div id="goldResult"></div>
 
 </div>
+
 
 <div class="box">
 
 <h2>💰 Gold Price</h2>
 
 <label>আজকের ২৪ ক্যারেট দাম (₹ / g)</label>
-<input type="number" id="rate">
+<input type="number" id="rate" placeholder="যেমন: 15000">
 
 <label>কত গ্রাম সোনা</label>
-<input type="number" id="grams">
+<input type="number" id="grams" placeholder="যেমন: 5">
 
 <button onclick="priceCalc()">Calculate</button>
 
-<div class="result" id="priceResult"></div>
+<div id="priceResult"></div>
 
 </div>
 
 </div>
 
-<div class="history" id="historyBox">
 
-<h3>Calculator History</h3>
+<div class="full">
 
-<ul id="historyList"></ul>
+<h2>⚖️ আনা → গ্রাম লিস্ট</h2>
 
-</div>
+<table>
+
+<tr>
+<th>আনা</th>
+<th>গ্রাম</th>
+</tr>
 
 <script>
 
-function updateDateTime(){
+let anaList=[1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15];
 
-var now=new Date();
+anaList.forEach(a=>{
+document.write("<tr><td>"+a+" আনা</td><td>"+(a*0.728).toFixed(3)+" g</td></tr>");
+});
 
-document.getElementById("datetime").innerHTML=
-now.toLocaleDateString('bn-IN')+" | "+
-now.toLocaleTimeString('bn-IN');
+</script>
 
-}
+</table>
 
-setInterval(updateDateTime,1000);
+</div>
 
-updateDateTime();
 
-function toggleDark(){
-
-document.body.classList.toggle("dark");
-
-}
-
-function toggleHistory(){
-
-var h=document.getElementById("historyBox");
-
-if(h.style.display==="block"){
-h.style.display="none";
-}else{
-h.style.display="block";
-}
-
-}
-
-var history=[];
+<script>
 
 function goldCalc(){
 
-var w=parseFloat(document.getElementById("weight").value);
-var p=parseFloat(document.getElementById("purity").value);
+let w=parseFloat(document.getElementById("weight").value);
+
+let p=parseFloat(document.getElementById("purity").value);
 
 if(isNaN(w)||isNaN(p)){
 document.getElementById("goldResult").innerHTML="⚠️ সব ঘর পূরণ করুন";
 return;
 }
 
-var pure=w*(p/100);
+let pure=w*(p/100);
 
-var k24=pure;
-var k22=pure/0.916;
-var k21=pure/0.875;
-var k20=pure/0.833;
+let k24=pure;
+let k22=pure/0.916;
+let k21=pure/0.875;
+let k20=pure/0.833;
+let k18=pure/0.750;
 
-var html="";
+let html="";
 
 html+="<table>";
 
-html+="<tr><th>24K</th><th>22K</th></tr>";
-html+="<tr><td>"+k24.toFixed(3)+" g</td><td>"+k22.toFixed(3)+" g</td></tr>";
+html+="<tr>";
+html+="<th>24K</th>";
+html+="<th>22K</th>";
+html+="<th>21K</th>";
+html+="<th>20K</th>";
+html+="<th>18K</th>";
+html+="</tr>";
 
-html+="<tr><th>21K</th><th>20K</th></tr>";
-html+="<tr><td>"+k21.toFixed(3)+" g</td><td>"+k20.toFixed(3)+" g</td></tr>";
+html+="<tr>";
+
+html+="<td>"+k24.toFixed(3)+" g</td>";
+html+="<td>"+k22.toFixed(3)+" g</td>";
+html+="<td>"+k21.toFixed(3)+" g</td>";
+html+="<td>"+k20.toFixed(3)+" g</td>";
+html+="<td>"+k18.toFixed(3)+" g</td>";
+
+html+="</tr>";
 
 html+="</table>";
 
 document.getElementById("goldResult").innerHTML=html;
 
-var text=w+"g "+p+"% → 24K "+k24.toFixed(2)+"g";
-
-history.unshift(text);
-
-updateHistory();
-
 }
 
-function updateHistory(){
 
-var list=document.getElementById("historyList");
-
-list.innerHTML="";
-
-for(var i=0;i<history.length;i++){
-
-var li=document.createElement("li");
-
-li.innerText=history[i];
-
-list.appendChild(li);
-
-}
-
-}
 
 function priceCalc(){
 
-var r=parseFloat(document.getElementById("rate").value);
-var g=parseFloat(document.getElementById("grams").value);
+let r=parseFloat(document.getElementById("rate").value);
+let g=parseFloat(document.getElementById("grams").value);
 
 if(isNaN(r)||isNaN(g)){
 document.getElementById("priceResult").innerHTML="⚠️ সব ঘর পূরণ করুন";
 return;
 }
 
-var rate22=r*0.916;
+let rate22=r*0.916;
 
-var base24=r*g;
-var making24=base24*0.08;
-var total24=base24+making24;
+let gold24=r*g;
+let making24=gold24*0.08;
+let total24=gold24+making24;
 
-var base22=rate22*g;
-var making22=base22*0.08;
-var total22=base22+making22;
+let gold22=rate22*g;
+let making22=gold22*0.08;
+let total22=gold22+making22;
 
-var html="";
+let html="";
 
 html+="<table>";
 
@@ -324,21 +233,9 @@ html+="<tr><th>24K</th><th>22K</th></tr>";
 
 html+="<tr>";
 
-html+="<td>";
+html+="<td>সোনার দাম: ₹"+gold24.toFixed(0)+"<br>মেকিং চার্জ (8%): ₹"+making24.toFixed(0)+"<br><b>মোট দাম: ₹"+total24.toFixed(0)+"</b></td>";
 
-html+="সোনার দাম: ₹"+base24.toFixed(0)+"<br>";
-html+="মেকিং চার্জ (8%): ₹"+making24.toFixed(0)+"<br>";
-html+="<b>মোট দাম: ₹"+total24.toFixed(0)+"</b>";
-
-html+="</td>";
-
-html+="<td>";
-
-html+="সোনার দাম: ₹"+base22.toFixed(0)+"<br>";
-html+="মেকিং চার্জ (8%): ₹"+making22.toFixed(0)+"<br>";
-html+="<b>মোট দাম: ₹"+total22.toFixed(0)+"</b>";
-
-html+="</td>";
+html+="<td>সোনার দাম: ₹"+gold22.toFixed(0)+"<br>মেকিং চার্জ (8%): ₹"+making22.toFixed(0)+"<br><b>মোট দাম: ₹"+total22.toFixed(0)+"</b></td>";
 
 html+="</tr>";
 
