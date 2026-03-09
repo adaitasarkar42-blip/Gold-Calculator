@@ -1,53 +1,102 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-
 <meta charset="UTF-8">
 <title>Gourob Jewellers</title>
 
 <style>
-
 body{
 font-family:Arial;
 background:#f2f2f2;
 padding:15px;
+transition:0.3s;
+}
+
+.dark{
+background:#121212;
+color:#fff;
+}
+
+.topbar{
+background:#fff;
+max-width:760px;
+margin:auto;
+padding:10px;
+border-radius:10px;
+box-shadow:0 0 10px #ccc;
+text-align:center;
+margin-bottom:15px;
+}
+
+.dark .topbar,
+.dark .header,
+.dark .box{
+background:#1e1e1e;
+color:#fff;
 }
 
 .header{
-background:white;
-max-width:900px;
+background:#fff;
+max-width:760px;
 margin:auto;
 padding:15px;
 border-radius:10px;
 box-shadow:0 0 10px #ccc;
 text-align:center;
+position:relative;
+}
+
+.menu{
+position:absolute;
+left:10px;
+top:10px;
+font-size:22px;
+cursor:pointer;
 }
 
 .container{
 display:flex;
-gap:15px;
-max-width:900px;
+justify-content:space-between;
+gap:10px;
+max-width:760px;
 margin:20px auto;
 }
 
 .box{
-background:white;
+background:#fff;
 padding:15px;
 border-radius:10px;
 box-shadow:0 0 10px #ccc;
-width:50%;
+width:49%;
+}
+
+h2{
+text-align:center;
+margin-top:0;
 }
 
 input,button{
 width:100%;
 padding:10px;
-margin-top:8px;
+margin-top:10px;
+font-size:15px;
 }
 
 button{
 background:#ffd700;
 border:none;
 font-weight:bold;
+cursor:pointer;
+}
+
+.result{
+margin-top:12px;
+font-size:15px;
+}
+
+.full{
+max-width:760px;
+margin:20px auto;
 }
 
 table{
@@ -56,7 +105,7 @@ border-collapse:collapse;
 margin-top:10px;
 }
 
-td,th{
+th,td{
 border:1px solid #ccc;
 padding:6px;
 text-align:center;
@@ -66,31 +115,47 @@ th{
 background:#ffd700;
 }
 
-.bill{
-padding:10px;
-border:1px dashed #000;
-margin-top:10px;
+a{
+text-decoration:none;
+font-weight:bold;
+margin:0 8px;
 }
 
 .history{
-max-width:900px;
-margin:auto;
-background:white;
-padding:10px;
-margin-top:20px;
+display:none;
+background:#fff;
+max-width:760px;
+margin:20px auto;
+padding:15px;
 border-radius:10px;
+box-shadow:0 0 10px #ccc;
+}
+
+.dark .history{
+background:#1e1e1e;
 }
 
 </style>
-
 </head>
 
 <body>
 
+<div class="topbar">
+📲 Connect with Gourob Biswas <br><br>
+<a href="https://www.facebook.com/share/1A1h4ZnvD4/" target="_blank">📘 Facebook</a>
+<a href="https://www.instagram.com/imgourobb" target="_blank">📸 Instagram</a>
+<a href="https://wa.me/919134807484" target="_blank">💬 WhatsApp</a>
+</div>
+
 <div class="header">
 
-<h2>Gourob Jewellers</h2>
-Owner: Gourob Biswas
+<div class="menu" onclick="toggleHistory()">☰</div>
+
+<h2>❤️ Gourob Biswas ❤️</h2>
+
+<div id="datetime"></div>
+
+<button onclick="toggleDark()">🌙 Dark Mode</button>
 
 </div>
 
@@ -98,143 +163,190 @@ Owner: Gourob Biswas
 
 <div class="box">
 
-<h3>Customer Bill</h3>
+<h2>🪙 Gold Calculator</h2>
 
-<input id="custname" placeholder="Customer Name">
+<label>গহনার ওজন (গ্রাম)</label>
+<input type="number" id="weight">
 
-<input id="goldprice" placeholder="Gold Price per gram">
+<label>সোনার পিউরিটি (%)</label>
+<input type="number" id="purity">
 
-<input id="weight" placeholder="Gold Weight gram">
+<button onclick="goldCalc()">Calculate</button>
 
-<input id="making" placeholder="Making Charge %">
-
-<button onclick="generateBill()">Generate Bill</button>
-
-<div id="bill" class="bill"></div>
-
-<button onclick="printBill()">Print PDF</button>
+<div class="result" id="goldResult"></div>
 
 </div>
-
 
 <div class="box">
 
-<h3>আনা → গ্রাম লিস্ট</h3>
+<h2>💰 Gold Price</h2>
 
-<table>
+<label>আজকের ২৪ ক্যারেট দাম (₹ / g)</label>
+<input type="number" id="rate">
 
-<tr>
-<th>আনা</th>
-<th>গ্রাম</th>
-</tr>
+<label>কত গ্রাম সোনা</label>
+<input type="number" id="grams">
+
+<button onclick="priceCalc()">Calculate</button>
+
+<div class="result" id="priceResult"></div>
+
+</div>
+
+</div>
+
+<div class="history" id="historyBox">
+
+<h3>Calculator History</h3>
+
+<ul id="historyList"></ul>
+
+</div>
 
 <script>
 
-let ana=[1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15];
+function updateDateTime(){
 
-ana.forEach(a=>{
-document.write("<tr><td>"+a+" আনা</td><td>"+(a*0.728).toFixed(3)+" g</td></tr>");
-});
+var now=new Date();
 
-</script>
-
-</table>
-
-</div>
-
-</div>
-
-
-<div class="history">
-
-<h3>Saved Bills</h3>
-
-<ul id="history"></ul>
-
-</div>
-
-
-<script>
-
-function generateBill(){
-
-let name=document.getElementById("custname").value;
-
-let price=parseFloat(document.getElementById("goldprice").value);
-
-let w=parseFloat(document.getElementById("weight").value);
-
-let m=parseFloat(document.getElementById("making").value);
-
-let gold=price*w;
-
-let makingCharge=gold*(m/100);
-
-let total=gold+makingCharge;
-
-let html="";
-
-html+="<b>Gourob Jewellers</b><br>";
-
-html+="Customer: "+name+"<br>";
-
-html+="Gold Price: ₹"+price+"<br>";
-
-html+="Weight: "+w+" g<br>";
-
-html+="Gold Value: ₹"+gold.toFixed(0)+"<br>";
-
-html+="Making: ₹"+makingCharge.toFixed(0)+"<br>";
-
-html+="<b>Total: ₹"+total.toFixed(0)+"</b><br>";
-
-html+="Date: "+new Date().toLocaleDateString();
-
-document.getElementById("bill").innerHTML=html;
+document.getElementById("datetime").innerHTML=
+now.toLocaleDateString('bn-IN')+" | "+
+now.toLocaleTimeString('bn-IN');
 
 }
 
+setInterval(updateDateTime,1000);
 
-function printBill(){
+updateDateTime();
 
-let billText=document.getElementById("bill").innerHTML;
+function toggleDark(){
 
-let bills=JSON.parse(localStorage.getItem("bills"))||[];
-
-bills.push(billText);
-
-localStorage.setItem("bills",JSON.stringify(bills));
-
-window.print();
+document.body.classList.toggle("dark");
 
 }
 
+function toggleHistory(){
 
-function loadBills(){
+var h=document.getElementById("historyBox");
 
-if(navigator.onLine){
+if(h.style.display==="block"){
+h.style.display="none";
+}else{
+h.style.display="block";
+}
 
-let bills=JSON.parse(localStorage.getItem("bills"))||[];
+}
 
-let list=document.getElementById("history");
+var history=[];
+
+function goldCalc(){
+
+var w=parseFloat(document.getElementById("weight").value);
+var p=parseFloat(document.getElementById("purity").value);
+
+if(isNaN(w)||isNaN(p)){
+document.getElementById("goldResult").innerHTML="⚠️ সব ঘর পূরণ করুন";
+return;
+}
+
+var pure=w*(p/100);
+
+var k24=pure;
+var k22=pure/0.916;
+var k21=pure/0.875;
+var k20=pure/0.833;
+
+var html="";
+
+html+="<table>";
+
+html+="<tr><th>24K</th><th>22K</th></tr>";
+html+="<tr><td>"+k24.toFixed(3)+" g</td><td>"+k22.toFixed(3)+" g</td></tr>";
+
+html+="<tr><th>21K</th><th>20K</th></tr>";
+html+="<tr><td>"+k21.toFixed(3)+" g</td><td>"+k20.toFixed(3)+" g</td></tr>";
+
+html+="</table>";
+
+document.getElementById("goldResult").innerHTML=html;
+
+var text=w+"g "+p+"% → 24K "+k24.toFixed(2)+"g";
+
+history.unshift(text);
+
+updateHistory();
+
+}
+
+function updateHistory(){
+
+var list=document.getElementById("historyList");
 
 list.innerHTML="";
 
-bills.forEach(b=>{
-let li=document.createElement("li");
-li.innerHTML=b;
+for(var i=0;i<history.length;i++){
+
+var li=document.createElement("li");
+
+li.innerText=history[i];
+
 list.appendChild(li);
-});
-
-}else{
-
-document.getElementById("history").innerHTML="Internet না থাকায় বিল দেখা যাচ্ছে না";
 
 }
 
 }
 
-window.onload=loadBills;
+function priceCalc(){
+
+var r=parseFloat(document.getElementById("rate").value);
+var g=parseFloat(document.getElementById("grams").value);
+
+if(isNaN(r)||isNaN(g)){
+document.getElementById("priceResult").innerHTML="⚠️ সব ঘর পূরণ করুন";
+return;
+}
+
+var rate22=r*0.916;
+
+var base24=r*g;
+var making24=base24*0.08;
+var total24=base24+making24;
+
+var base22=rate22*g;
+var making22=base22*0.08;
+var total22=base22+making22;
+
+var html="";
+
+html+="<table>";
+
+html+="<tr><th>24K</th><th>22K</th></tr>";
+
+html+="<tr>";
+
+html+="<td>";
+
+html+="সোনার দাম: ₹"+base24.toFixed(0)+"<br>";
+html+="মেকিং চার্জ (8%): ₹"+making24.toFixed(0)+"<br>";
+html+="<b>মোট দাম: ₹"+total24.toFixed(0)+"</b>";
+
+html+="</td>";
+
+html+="<td>";
+
+html+="সোনার দাম: ₹"+base22.toFixed(0)+"<br>";
+html+="মেকিং চার্জ (8%): ₹"+making22.toFixed(0)+"<br>";
+html+="<b>মোট দাম: ₹"+total22.toFixed(0)+"</b>";
+
+html+="</td>";
+
+html+="</tr>";
+
+html+="</table>";
+
+document.getElementById("priceResult").innerHTML=html;
+
+}
 
 </script>
 
