@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Test</title>
+</head>
+
+<body style="font-family:Arial;text-align:center;margin-top:100px;">
+
+<h1>Gold Calculator Working</h1>
+
+<input id="num" placeholder="number">
+
+<button onclick="calc()">Check</button>
+
+<p id="result"></p>
+
+<script>
+
+function calc(){
+
+let n=document.getElementById("num").value;
+
+document.getElementById("result").innerHTML="Result: "+n;
+
+}
+
+</script>
+
+</body>
+</html>
