@@ -103,9 +103,9 @@ a{
 
 <div class="topbar">
   📲 Connect with Gourob Biswas <br><br>
-  <a href="https://www.facebook.com/share/1A1h4ZnvD4/" target="_blank">📘 Facebook</a>
-  <a href="https://www.instagram.com/imgourobb?igsh=MW1zajV2YWRmaHk4MQ==" target="_blank">📸 Instagram</a>
-  <a href="https://wa.me/919134807484" target="_blank">💬 WhatsApp</a>
+  <a href="#" target="_blank">📘 Facebook</a>
+  <a href="#" target="_blank">📸 Instagram</a>
+  <a href="#" target="_blank">💬 WhatsApp</a>
 </div>
 
 <div class="header">
@@ -119,12 +119,13 @@ a{
     <h2>🪙 Gold Calculator</h2>
 
     <label>গহনার ওজন (গ্রাম)</label>
-    <input type="number" id="weight" placeholder="যেমন: 10">
+    <input type="number" id="weight">
 
     <label>সোনার পিউরিটি (%)</label>
-    <input type="number" id="purity" placeholder="যেমন: 86">
+    <input type="number" id="purity">
 
     <button onclick="goldCalc()">Calculate</button>
+
     <div class="result" id="goldResult"></div>
   </div>
 
@@ -132,12 +133,13 @@ a{
     <h2>💰 Gold Price</h2>
 
     <label>আজকের ২৪ ক্যারেট দাম (₹ / g)</label>
-    <input type="number" id="rate" placeholder="যেমন: 15000">
+    <input type="number" id="rate">
 
     <label>কত গ্রাম সোনা</label>
-    <input type="number" id="grams" placeholder="যেমন: 5">
+    <input type="number" id="grams">
 
     <button onclick="priceCalc()">Calculate</button>
+
     <div class="result" id="priceResult"></div>
   </div>
 
@@ -170,6 +172,45 @@ function updateDateTime(){
 setInterval(updateDateTime,1000);
 updateDateTime();
 
+
+function goldCalc(){
+
+  let w=parseFloat(weight.value);
+  let p=parseFloat(purity.value);
+
+  if(isNaN(w)||isNaN(p)){
+    goldResult.innerHTML="⚠️ সব ঘর পূরণ করুন";
+    return;
+  }
+
+  let pure=(w*p)/100;
+
+  let k24=pure;
+  let k22=pure/0.916;
+  let k21=pure/0.875;
+  let k20=pure/0.833;
+
+  goldResult.innerHTML=`
+
+  <table>
+  <tr style="background:#ffd700;font-weight:bold;">
+    <td>24K</td>
+    <td>22K</td>
+    <td>21K</td>
+    <td>20K</td>
+  </tr>
+  <tr>
+    <td>${k24.toFixed(2)} g</td>
+    <td>${k22.toFixed(2)} g</td>
+    <td>${k21.toFixed(2)} g</td>
+    <td>${k20.toFixed(2)} g</td>
+  </tr>
+  </table>
+
+  `;
+}
+
+
 function priceCalc(){
 
   let r=parseFloat(rate.value);
@@ -192,28 +233,32 @@ function priceCalc(){
 
   priceResult.innerHTML=`
 
-  <table style="width:100%; margin-top:10px; border-collapse:collapse;">
-  
+  <table>
   <tr style="background:#ffd700;font-weight:bold;">
-  <td style="border:1px solid #ccc;padding:6px;">24K</td>
-  <td style="border:1px solid #ccc;padding:6px;">22K</td>
+    <td>24K</td>
+    <td>22K</td>
   </tr>
 
   <tr>
-  <td style="border:1px solid #ccc;padding:6px;">
-  সোনার দাম: ₹${base24.toFixed(0)} <br>
-  মেকিং চার্জ (8%): ₹${making24.toFixed(0)} <br>
-  <b>মোট দাম: ₹${total24.toFixed(0)}</b>
-  </td>
+    <td>
+    সোনার দাম: ₹${base24.toFixed(0)}<br>
+    মেকিং চার্জ (8%): ₹${making24.toFixed(0)}<br>
+    <b>মোট: ₹${total24.toFixed(0)}</b>
+    </td>
 
-  <td style="border:1px solid #ccc;padding:6px;">
-  সোনার দাম: ₹${base22.toFixed(0)} <br>
-  মেকিং চার্জ (8%): ₹${making22.toFixed(0)} <br>
-  <b>মোট দাম: ₹${total22.toFixed(0)}</b>
-  </td>
-
+    <td>
+    সোনার দাম: ₹${base22.toFixed(0)}<br>
+    মেকিং চার্জ (8%): ₹${making22.toFixed(0)}<br>
+    <b>মোট: ₹${total22.toFixed(0)}</b>
+    </td>
   </tr>
 
   </table>
+
   `;
 }
+
+</script>
+
+</body>
+</html>
