@@ -103,9 +103,9 @@ a{
 
 <div class="topbar">
   📲 Connect with Gourob Biswas <br><br>
-  <a href="#" target="_blank">📘 Facebook</a>
-  <a href="#" target="_blank">📸 Instagram</a>
-  <a href="#" target="_blank">💬 WhatsApp</a>
+  <a href="#">📘 Facebook</a>
+  <a href="#">📸 Instagram</a>
+  <a href="#">💬 WhatsApp</a>
 </div>
 
 <div class="header">
@@ -115,34 +115,24 @@ a{
 
 <div class="container">
 
+  <!-- Gold Calculator -->
   <div class="box">
     <h2>🪙 Gold Calculator</h2>
 
-    <label>গহনার ওজন (গ্রাম)</label>
-    <input type="number" id="weight">
-    placeholder="যেমন: 10 গ্রাম">  
-    
-
-    <label>সোনার পিউরিটি (%)</label>
-    <input type="number" id="purity">
-    placeholder="যেমন: 86">  
+    <input type="number" id="weight" placeholder="যেমন 10 গ্রাম">
+    <input type="number" id="purity" placeholder="যেমন ৮৬">
 
     <button onclick="goldCalc()">Calculate</button>
 
     <div class="result" id="goldResult"></div>
   </div>
 
+  <!-- Gold Price -->
   <div class="box">
     <h2>💰 Gold Price</h2>
 
-    <label>আজকের ২৪ ক্যারেট দাম (₹ / g)</label>
-    <input type="number" id="rate">
-    placeholder="যেমন: 15000 টাকা">
-
-    
-    <label>কত গ্রাম সোনা</label>
-    <input type="number" id="grams">
-    placeholder="যেমন: 5 গ্রাম">
+    <input type="number" id="rate" placeholder="প্রতি 1 গ্রামের দাম">
+    <input type="number" id="grams" placeholder="কতটুকু সোনা নিয়েছো">
 
     <button onclick="priceCalc()">Calculate</button>
 
@@ -151,6 +141,7 @@ a{
 
 </div>
 
+<!-- Ana list -->
 <div class="box full">
   <h2>⚖️ আনা → গ্রাম লিস্ট</h2>
   <table>
