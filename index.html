@@ -1,3 +1,155 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>Gourob Jewellers</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f2f2f2;
+  padding:15px;
+}
+
+.topbar{
+  background:#fff;
+  max-width:760px;
+  margin:auto;
+  padding:10px;
+  border-radius:10px;
+  box-shadow:0 0 10px #ccc;
+  text-align:center;
+  margin-bottom:15px;
+}
+
+.header{
+  background:#fff;
+  max-width:760px;
+  margin:auto;
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 0 10px #ccc;
+  text-align:center;
+}
+
+.container{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  max-width:760px;
+  margin:20px auto;
+  flex-wrap:nowrap;
+}
+
+.box{
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 0 10px #ccc;
+  width:49%;
+}
+
+h2{
+  text-align:center;
+  margin-top:0;
+}
+
+input, button{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  font-size:15px;
+}
+
+button{
+  background:#ffd700;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.result{
+  margin-top:12px;
+  font-size:15px;
+}
+
+.full{
+  max-width:760px;
+  margin:20px auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+th, td{
+  border:1px solid #ccc;
+  padding:6px;
+  text-align:center;
+}
+th{
+  background:#ffd700;
+}
+a{
+  text-decoration:none;
+  font-weight:bold;
+  margin:0 8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  📲 Connect with Gourob Biswas <br><br>
+  <a href="https://www.facebook.com/share/1A1h4ZnvD4/" target="_blank">📘 Facebook</a>
+  <a href="https://www.instagram.com/imgourobb?igsh=MW1zajV2YWRmaHk4MQ==" target="_blank">📸 Instagram</a>
+  <a href="https://wa.me/919134807484" target="_blank">💬 WhatsApp</a>
+</div>
+
+<div class="header">
+  <h2>❤️ Gourob Biswas ❤️</h2>
+  <div id="datetime"></div>
+</div>
+
+<div class="container">
+
+  <div class="box">
+    <h2>🪙 Gold Calculator</h2>
+
+    <label>গহনার ওজন (গ্রাম)</label>
+    <input type="number" id="weight" placeholder="যেমন: 10">
+
+    <label>সোনার পিউরিটি (%)</label>
+    <input type="number" id="purity" placeholder="যেমন: 86">
+
+    <button onclick="goldCalc()">Calculate</button>
+    <div class="result" id="goldResult"></div>
+  </div>
+
+  <div class="box">
+    <h2>💰 Gold Price</h2>
+
+    <label>আজকের ২৪ ক্যারেট দাম (₹ / g)</label>
+    <input type="number" id="rate" placeholder="যেমন: 15000">
+
+    <label>কত গ্রাম সোনা</label>
+    <input type="number" id="grams" placeholder="যেমন: 5">
+
+    <button onclick="priceCalc()">Calculate</button>
+    <div class="result" id="priceResult"></div>
+  </div>
+
+</div>
+
+<div class="box full">
+  <h2>⚖️ আনা → গ্রাম লিস্ট</h2>
+  <table>
+    <tr>
+      <th>আনা</th>
+      <th>গ্রাম</th>
+    </tr>
     <script>
       let anaList=[1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15];
       anaList.forEach(a=>{
@@ -18,39 +170,50 @@ function updateDateTime(){
 setInterval(updateDateTime,1000);
 updateDateTime();
 
-function goldCalc(){
-  let w=parseFloat(weight.value);
-  let p=parseFloat(purity.value);
-  if(isNaN(w)||isNaN(p)){
-    goldResult.innerHTML="⚠️ সব ঘর পূরণ করুন";
-    return;
-  }
-  let pure=w*(p/100);
-  let k22=pure/0.916;
-  goldResult.innerHTML=
-    "২৪ ক্যারেট: <b>"+pure.toFixed(2)+" g</b><br>"+
-    "২২ ক্যারেট: <b>"+k22.toFixed(2)+" g</b>";
-}
-
 function priceCalc(){
+
   let r=parseFloat(rate.value);
   let g=parseFloat(grams.value);
+
   if(isNaN(r)||isNaN(g)){
     priceResult.innerHTML="⚠️ সব ঘর পূরণ করুন";
     return;
   }
 
-  let base=r*g;
-  let making=base*0.08;
-  let total=base+making;
+  let rate22 = r * 0.916;
 
-  priceResult.innerHTML=
-    "সোনার দাম: ₹"+base.toFixed(0)+"<br>"+
-    "মেকিং চার্জ (8%): ₹"+making.toFixed(0)+"<br>"+
-    "<b>মোট দাম: ₹"+total.toFixed(0)+"</b>";
+  let base24 = r*g;
+  let making24 = base24*0.08;
+  let total24 = base24 + making24;
+
+  let base22 = rate22*g;
+  let making22 = base22*0.08;
+  let total22 = base22 + making22;
+
+  priceResult.innerHTML=`
+
+  <table style="width:100%; margin-top:10px; border-collapse:collapse;">
+  
+  <tr style="background:#ffd700;font-weight:bold;">
+  <td style="border:1px solid #ccc;padding:6px;">24K</td>
+  <td style="border:1px solid #ccc;padding:6px;">22K</td>
+  </tr>
+
+  <tr>
+  <td style="border:1px solid #ccc;padding:6px;">
+  সোনার দাম: ₹${base24.toFixed(0)} <br>
+  মেকিং চার্জ (8%): ₹${making24.toFixed(0)} <br>
+  <b>মোট দাম: ₹${total24.toFixed(0)}</b>
+  </td>
+
+  <td style="border:1px solid #ccc;padding:6px;">
+  সোনার দাম: ₹${base22.toFixed(0)} <br>
+  মেকিং চার্জ (8%): ₹${making22.toFixed(0)} <br>
+  <b>মোট দাম: ₹${total22.toFixed(0)}</b>
+  </td>
+
+  </tr>
+
+  </table>
+  `;
 }
-
-</script>
-
-</body>
-</html>
