@@ -96,10 +96,39 @@ a{
   font-weight:bold;
   margin:0 8px;
 }
+
+/* NEW MENU STYLE */
+.menu{
+  position:fixed;
+  top:10px;
+  right:15px;
+  font-size:26px;
+  cursor:pointer;
+}
+
+.menuBox{
+  display:none;
+  position:fixed;
+  top:40px;
+  right:10px;
+  background:#fff;
+  padding:10px;
+  border-radius:8px;
+  box-shadow:0 0 10px #ccc;
+  z-index:999;
+}
 </style>
 </head>
 
 <body>
+
+<!-- 3 DOT -->
+<div class="menu" onclick="toggleMenu()">⋮</div>
+
+<div id="menuBox" class="menuBox">
+  <div onclick="openBill()">📄 Generate Bill</div>
+  <div onclick="showSaved()">📁 Saved Bills</div>
+</div>
 
 <div class="topbar">
   📲 Connect with Gourob Biswas <br><br>
@@ -115,39 +144,34 @@ a{
 
 <div class="container">
 
-  <!-- Gold Calculator -->
   <div class="box">
     <h2>🪙 Gold Calculator</h2>
 
     <label>গহনার ওজন (গ্রাম)</label>
-<input type="number" id="weight" placeholder="যেমন 10 গ্রাম">
+    <input type="number" id="weight" placeholder="যেমন 10 গ্রাম">
 
-<label>সোনার পিউরিটি (%)</label>
-<input type="number" id="purity" placeholder="যেমন ৮৬">
+    <label>সোনার পিউরিটি (%)</label>
+    <input type="number" id="purity" placeholder="যেমন ৮৬">
 
     <button onclick="goldCalc()">Calculate</button>
-
     <div class="result" id="goldResult"></div>
   </div>
 
-  <!-- Gold Price -->
   <div class="box">
     <h2>💰 Gold Price</h2>
 
     <label>আজকের ২৪ ক্যারেট দাম (₹ / g)</label>
-<input type="number" id="rate" placeholder="প্রতি 1 গ্রামের দাম">
+    <input type="number" id="rate" placeholder="প্রতি 1 গ্রামের দাম">
 
-<label>কত গ্রাম সোনা</label>
-<input type="number" id="grams" placeholder="কতটুকু সোনা নিয়েছো">
+    <label>কত গ্রাম সোনা</label>
+    <input type="number" id="grams" placeholder="কতটুকু সোনা নিয়েছো">
 
     <button onclick="priceCalc()">Calculate</button>
-
     <div class="result" id="priceResult"></div>
   </div>
 
 </div>
 
-<!-- Ana list -->
 <div class="box full">
   <h2>⚖️ আনা → গ্রাম লিস্ট</h2>
   <table>
@@ -164,6 +188,27 @@ a{
   </table>
 </div>
 
+<!-- BILL FORM -->
+<div id="billBox" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+background:#fff;padding:15px;border-radius:10px;width:90%;max-width:350px;box-shadow:0 0 20px rgba(0,0,0,0.3);z-index:1000;">
+
+<h3>📄 Bill Generate</h3>
+
+<input id="cname" placeholder="Customer Name">
+<input id="cmobile" placeholder="Mobile Number">
+<input id="cgold" placeholder="Gold (gram)">
+<input id="cmaking" placeholder="Making Charge (%)">
+
+<button onclick="saveBill()">Save Bill</button>
+<button onclick="closeBill()" style="background:#ccc;margin-top:5px;">Close</button>
+
+</div>
+
+<!-- SAVED LIST -->
+<div id="savedBox" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+background:#fff;padding:15px;border-radius:10px;width:90%;max-width:400px;max-height:400px;overflow:auto;
+box-shadow:0 0 20px rgba(0,0,0,0.3);z-index:1000;"></div>
+
 <script>
 
 function updateDateTime(){
@@ -175,9 +220,7 @@ function updateDateTime(){
 setInterval(updateDateTime,1000);
 updateDateTime();
 
-
 function goldCalc(){
-
   let w=parseFloat(weight.value);
   let p=parseFloat(purity.value);
 
@@ -188,13 +231,7 @@ function goldCalc(){
 
   let pure=(w*p)/100;
 
-  let k24=pure;
-  let k22=pure/0.916;
-  let k21=pure/0.875;
-  let k20=pure/0.833;
-
   goldResult.innerHTML=`
-
   <table>
   <tr style="background:#ffd700;font-weight:bold;">
     <td>24K</td>
@@ -203,19 +240,15 @@ function goldCalc(){
     <td>20K</td>
   </tr>
   <tr>
-    <td>${k24.toFixed(2)} g</td>
-    <td>${k22.toFixed(2)} g</td>
-    <td>${k21.toFixed(2)} g</td>
-    <td>${k20.toFixed(2)} g</td>
+    <td>${pure.toFixed(2)} g</td>
+    <td>${(pure/0.916).toFixed(2)} g</td>
+    <td>${(pure/0.875).toFixed(2)} g</td>
+    <td>${(pure/0.833).toFixed(2)} g</td>
   </tr>
-  </table>
-
-  `;
+  </table>`;
 }
 
-
 function priceCalc(){
-
   let r=parseFloat(rate.value);
   let g=parseFloat(grams.value);
 
@@ -235,7 +268,6 @@ function priceCalc(){
   let total22 = base22 + making22;
 
   priceResult.innerHTML=`
-
   <table>
   <tr style="background:#ffd700;font-weight:bold;">
     <td>24K</td>
@@ -255,10 +287,77 @@ function priceCalc(){
     <b>মোট: ₹${total22.toFixed(0)}</b>
     </td>
   </tr>
+  </table>`;
+}
 
-  </table>
+/* MENU */
+function toggleMenu(){
+menuBox.style.display = menuBox.style.display==="none"?"block":"none";
+}
 
-  `;
+function openBill(){
+billBox.style.display="block";
+}
+
+function closeBill(){
+billBox.style.display="none";
+}
+
+/* SAVE BILL */
+function saveBill(){
+
+let data={
+name:cname.value,
+mobile:cmobile.value,
+gold:cgold.value,
+making:cmaking.value
+};
+
+if(!data.name||!data.mobile||!data.gold||!data.making){
+alert("সব তথ্য পূরণ করুন");
+return;
+}
+
+let bills=JSON.parse(localStorage.getItem("bills")||"[]");
+bills.push(data);
+localStorage.setItem("bills",JSON.stringify(bills));
+
+alert("Saved!");
+closeBill();
+}
+
+/* SHOW SAVED */
+function showSaved(){
+
+let bills=JSON.parse(localStorage.getItem("bills")||"[]");
+
+let html="<h3>📁 Saved Bills</h3>";
+
+bills.forEach((b,i)=>{
+html+=`
+<div style="border:1px solid #ccc;padding:8px;margin-top:8px;border-radius:6px;">
+<b>${b.name}</b> (${b.mobile})<br>
+Gold: ${b.gold}g | Making: ${b.making}%<br>
+<button onclick="deleteBill(${i})">❌ Delete</button>
+</div>
+`;
+});
+
+html+=`<button onclick="closeSaved()" style="margin-top:10px;width:100%;">Close</button>`;
+
+savedBox.innerHTML=html;
+savedBox.style.display="block";
+}
+
+function closeSaved(){
+savedBox.style.display="none";
+}
+
+function deleteBill(i){
+let bills=JSON.parse(localStorage.getItem("bills"));
+bills.splice(i,1);
+localStorage.setItem("bills",JSON.stringify(bills));
+showSaved();
 }
 
 </script>
