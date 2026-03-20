@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>Gourob Jewellers</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f2f2f2;
+  padding:15px;
+}
+
+.topbar{
+  background:#fff;
+  max-width:760px;
+  margin:auto;
+  padding:10px;
+  border-radius:10px;
+  box-shadow:0 0 10px #ccc;
+  text-align:center;
+  margin-bottom:15px;
+}
+
+.header{
+  background:#fff;
+  max-width:760px;
+  margin:auto;
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 0 10px #ccc;
+  text-align:center;
+}
+
+.container{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  max-width:760px;
+  margin:20px auto;
+  flex-wrap:nowrap;
+}
+
+.box{
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  box-shadow:0 0 10px #ccc;
+  width:49%;
+}
+
+h2{
+  text-align:center;
+  margin-top:0;
+}
+
+input, button{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  font-size:15px;
+}
+
+button{
+  background:#ffd700;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.result{
+  margin-top:12px;
+  font-size:15px;
+}
+
+.full{
+  max-width:760px;
+  margin:20px auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+th, td{
+  border:1px solid #ccc;
+  padding:6px;
+  text-align:center;
+}
+th{
+  background:#ffd700;
+}
+a{
+  text-decoration:none;
+  font-weight:bold;
+  margin:0 8px;
+}
+
+/* NEW MENU STYLE */
+.menu{
+  position:fixed;
+  top:10px;
+  right:15px;
+  font-size:26px;
+  cursor:pointer;
+}
+
+.menuBox{
+  display:none;
+  position:fixed;
+  top:40px;
+  right:10px;
+  background:#fff;
+  padding:10px;
+  border-radius:8px;
+  box-shadow:0 0 10px #ccc;
+  z-index:999;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 3 DOT -->
+<div class="menu" onclick="toggleMenu()">⋮</div>
+
+<div id="menuBox" class="menuBox">
+  <div onclick="openBill()">📄 Generate Bill</div>
+  <div onclick="showSaved()">📁 Saved Bills</div>
+</div>
+
+<div class="topbar">
+  📲 Connect with Gourob Biswas <br><br>
+  <a href="#">📘 Facebook</a>
+  <a href="#">📸 Instagram</a>
+  <a href="#">💬 WhatsApp</a>
+</div>
+
+<div class="header">
+  <h2>❤️ Gourob Biswas ❤️</h2>
+  <div id="datetime"></div>
+</div>
+
+<div class="container">
+
+  <div class="box">
+    <h2>🪙 Gold Calculator</h2>
+
+    <label>গহনার ওজন (গ্রাম)</label>
+    <input type="number" id="weight" placeholder="যেমন 10 গ্রাম">
+
+    <label>সোনার পিউরিটি (%)</label>
+    <input type="number" id="purity" placeholder="যেমন ৮৬">
+
+    <button onclick="goldCalc()">Calculate</button>
+    <div class="result" id="goldResult"></div>
+  </div>
+
+  <div class="box">
+    <h2>💰 Gold Price</h2>
+
+    <label>আজকের ২৪ ক্যারেট দাম (₹ / g)</label>
+    <input type="number" id="rate" placeholder="প্রতি 1 গ্রামের দাম">
+
+    <label>কত গ্রাম সোনা</label>
+    <input type="number" id="grams" placeholder="কতটুকু সোনা নিয়েছো">
+
+    <button onclick="priceCalc()">Calculate</button>
+    <div class="result" id="priceResult"></div>
+  </div>
+
+</div>
+
+<div class="box full">
+  <h2>⚖️ আনা → গ্রাম লিস্ট</h2>
+  <table>
+    <tr>
+      <th>আনা</th>
+      <th>গ্রাম</th>
+    </tr>
+    <script>
+      let anaList=[1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15];
+      anaList.forEach(a=>{
+        document.write("<tr><td>"+a+" আনা</td><td>"+(a*0.728).toFixed(3)+" g</td></tr>");
+      });
+    </script>
+  </table>
+</div>
+
+<!-- BILL FORM -->
+<div id="billBox" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+background:#fff;padding:15px;border-radius:10px;width:90%;max-width:350px;box-shadow:0 0 20px rgba(0,0,0,0.3);z-index:1000;">
+
+<h3>📄 Bill Generate</h3>
+
+<input id="cname" placeholder="Customer Name">
+<input id="cmobile" placeholder="Mobile Number">
+<input id="cgold" placeholder="Gold (gram)">
+<input id="cmaking" placeholder="Making Charge (%)">
+
+<button onclick="saveBill()">Save Bill</button>
+<button onclick="closeBill()" style="background:#ccc;margin-top:5px;">Close</button>
+
+</div>
+
+<!-- SAVED LIST -->
+<div id="savedBox" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+background:#fff;padding:15px;border-radius:10px;width:90%;max-width:400px;max-height:400px;overflow:auto;
+box-shadow:0 0 20px rgba(0,0,0,0.3);z-index:1000;"></div>
+
+<script>
+
+function updateDateTime(){
+  let now=new Date();
+  document.getElementById("datetime").innerHTML=
+    now.toLocaleDateString('bn-IN')+" | "+
+    now.toLocaleTimeString('bn-IN');
+}
+setInterval(updateDateTime,1000);
+updateDateTime();
+
+function goldCalc(){
+  let w=parseFloat(weight.value);
+  let p=parseFloat(purity.value);
+
+  if(isNaN(w)||isNaN(p)){
+    goldResult.innerHTML="⚠️ সব ঘর পূরণ করুন";
+    return;
+  }
+
+  let pure=(w*p)/100;
+
+  goldResult.innerHTML=`
+  <table>
+  <tr style="background:#ffd700;font-weight:bold;">
+    <td>24K</td>
+    <td>22K</td>
+    <td>21K</td>
+    <td>20K</td>
+  </tr>
+  <tr>
+    <td>${pure.toFixed(2)} g</td>
+    <td>${(pure/0.916).toFixed(2)} g</td>
+    <td>${(pure/0.875).toFixed(2)} g</td>
+    <td>${(pure/0.833).toFixed(2)} g</td>
+  </tr>
+  </table>`;
+}
+
+function priceCalc(){
+  let r=parseFloat(rate.value);
+  let g=parseFloat(grams.value);
+
+  if(isNaN(r)||isNaN(g)){
+    priceResult.innerHTML="⚠️ সব ঘর পূরণ করুন";
+    return;
+  }
+
+  let rate22 = r * 0.916;
+
+  let base24 = r*g;
+  let making24 = base24*0.08;
+  let total24 = base24 + making24;
+
+  let base22 = rate22*g;
+  let making22 = base22*0.08;
+  let total22 = base22 + making22;
+
+  priceResult.innerHTML=`
+  <table>
+  <tr style="background:#ffd700;font-weight:bold;">
+    <td>24K</td>
+    <td>22K</td>
+  </tr>
+
+  <tr>
+    <td>
+    সোনার দাম: ₹${base24.toFixed(0)}<br>
+    মেকিং চার্জ (8%): ₹${making24.toFixed(0)}<br>
+    <b>মোট: ₹${total24.toFixed(0)}</b>
+    </td>
+
+    <td>
+    সোনার দাম: ₹${base22.toFixed(0)}<br>
+    মেকিং চার্জ (8%): ₹${making22.toFixed(0)}<br>
+    <b>মোট: ₹${total22.toFixed(0)}</b>
+    </td>
+  </tr>
+  </table>`;
+}
+
+/* MENU */
+function toggleMenu(){
+menuBox.style.display = menuBox.style.display==="none"?"block":"none";
+}
+
+function openBill(){
+billBox.style.display="block";
+}
+
+function closeBill(){
+billBox.style.display="none";
+}
+
+/* SAVE BILL */
+function saveBill(){
+
+let data={
+name:cname.value,
+mobile:cmobile.value,
+gold:cgold.value,
+making:cmaking.value
+};
+
+if(!data.name||!data.mobile||!data.gold||!data.making){
+alert("সব তথ্য পূরণ করুন");
+return;
+}
+
+let bills=JSON.parse(localStorage.getItem("bills")||"[]");
+bills.push(data);
+localStorage.setItem("bills",JSON.stringify(bills));
+
+alert("Saved!");
+closeBill();
+}
+
+/* SHOW SAVED */
+function showSaved(){
+
+let bills=JSON.parse(localStorage.getItem("bills")||"[]");
+
+let html="<h3>📁 Saved Bills</h3>";
+
+bills.forEach((b,i)=>{
+html+=`
+<div style="border:1px solid #ccc;padding:8px;margin-top:8px;border-radius:6px;">
+<b>${b.name}</b> (${b.mobile})<br>
+Gold: ${b.gold}g | Making: ${b.making}%<br>
+<button onclick="deleteBill(${i})">❌ Delete</button>
+</div>
+`;
+});
+
+html+=`<button onclick="closeSaved()" style="margin-top:10px;width:100%;">Close</button>`;
+
+savedBox.innerHTML=html;
+savedBox.style.display="block";
+}
+
+function closeSaved(){
+savedBox.style.display="none";
+}
+
+function deleteBill(i){
+let bills=JSON.parse(localStorage.getItem("bills"));
+bills.splice(i,1);
+localStorage.setItem("bills",JSON.stringify(bills));
+showSaved();
+}
+
+</script>
+
+</body>
+  </html>
